@@ -13,5 +13,5 @@
 
 ## ライセンス
 
-Copyright (c) 2026
+Copyright (c) 2026 嶋@おじさん　https://note.com/b4u_2310
 無断転載・再配布・改変・再公開を禁じます。
