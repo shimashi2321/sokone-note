@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>底値ノート - ブックマークレット設定マニュアル</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F3F0E6;
+    --paper-line:#DCD4BE;
+    --ink:#1F3A33;
+    --ink-soft:#5B6B61;
+    --stamp:#D8542B;
+    --stamp-dark:#A8401F;
+    --tag:#3F7A5E;
+    --tag-light:#E5EFE3;
+    --code-bg:#10231D;
+    --code-text:#CFEAD9;
+    --gold:#E0A23B;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 20% 0%, rgba(63,122,94,0.06), transparent 40%),
+      var(--paper);
+    color:var(--ink);
+    font-family:"M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", sans-serif;
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+    padding:48px 22px 100px;
+  }
+
+  /* ---------- Header: price-tag stamp ---------- */
+  header{
+    position:relative;
+    text-align:center;
+    margin-bottom:46px;
+  }
+  .eyebrow{
+    font-size:13px;
+    letter-spacing:.18em;
+    color:var(--ink-soft);
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:"Zen Maru Gothic", sans-serif;
+    font-weight:900;
+    font-size:clamp(26px,6vw,38px);
+    margin:0 0 14px;
+    color:var(--ink);
+  }
+  h1 .accent{ color:var(--tag); }
+  .lede{
+    color:var(--ink-soft);
+    font-size:15px;
+    max-width:480px;
+    margin:0 auto;
+  }
+  .price-stamp{
+    display:inline-block;
+    margin-top:18px;
+    padding:6px 18px;
+    border:2.5px solid var(--stamp);
+    border-radius:999px;
+    color:var(--stamp-dark);
+    font-weight:700;
+    font-size:13px;
+    transform:rotate(-2deg);
+    background:#fff7f0;
+  }
+
+  /* ---------- Section card: receipt style ---------- */
+  .receipt{
+    background:#FBFAF5;
+    border:1px solid var(--paper-line);
+    border-radius:10px;
+    box-shadow:0 1px 0 rgba(0,0,0,.02), 0 14px 30px -20px rgba(31,58,51,.25);
+    margin-bottom:40px;
+    overflow:hidden;
+  }
+  .receipt-head{
+    background:var(--tag);
+    color:#fff;
+    padding:18px 24px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .receipt-head .num{
+    font-family:"Zen Maru Gothic", sans-serif;
+    font-weight:900;
+    font-size:22px;
+    background:rgba(255,255,255,.18);
+    border-radius:50%;
+    width:34px;height:34px;
+    display:flex;align-items:center;justify-content:center;
+    flex:none;
+  }
+  .receipt-head .title{
+    font-family:"Zen Maru Gothic", sans-serif;
+    font-weight:700;
+    font-size:17px;
+  }
+  .receipt-head .sub{
+    font-size:12.5px;
+    opacity:.85;
+    margin-top:2px;
+  }
+  .receipt-body{
+    padding:6px 24px 22px;
+  }
+
+  /* ---------- Steps ---------- */
+  .step{
+    display:flex;
+    gap:16px;
+    padding:18px 0;
+    border-bottom:1px dashed var(--paper-line);
+  }
+  .step:last-child{ border-bottom:none; }
+  .step-marker{
+    flex:none;
+    width:30px;height:30px;
+    border-radius:8px;
+    background:var(--tag-light);
+    color:var(--tag);
+    font-weight:700;
+    font-size:14px;
+    display:flex;align-items:center;justify-content:center;
+    margin-top:2px;
+    font-family:"Zen Maru Gothic", sans-serif;
+  }
+  .step-content{ flex:1; min-width:0; }
+  .step-content p{
+    margin:0 0 8px;
+    font-size:15px;
+  }
+  .step-content p:last-child{ margin-bottom:0; }
+  .kbd{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    background:#fff;
+    border:1px solid var(--paper-line);
+    border-radius:6px;
+    padding:2px 9px;
+    font-size:13px;
+    font-weight:700;
+    color:var(--ink);
+    box-shadow:0 1px 0 var(--paper-line);
+  }
+  .field-label{
+    display:inline-block;
+    font-size:12px;
+    font-weight:700;
+    color:var(--ink-soft);
+    background:var(--tag-light);
+    border-radius:5px;
+    padding:2px 8px;
+    margin-right:6px;
+  }
+  .input-mock{
+    margin-top:8px;
+    background:#fff;
+    border:1.5px solid var(--paper-line);
+    border-radius:7px;
+    padding:9px 12px;
+    font-size:14px;
+    font-weight:600;
+    color:var(--ink);
+  }
+
+  /* ---------- Code block ---------- */
+  .code-block{
+    position:relative;
+    margin-top:10px;
+    background:var(--code-bg);
+    border-radius:9px;
+    overflow:hidden;
+  }
+  .code-block .label{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:9px 14px;
+    background:rgba(255,255,255,.05);
+    color:#9FCDB7;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.03em;
+  }
+  .copy-btn{
+    border:none;
+    background:var(--gold);
+    color:#2A1C05;
+    font-weight:700;
+    font-size:12px;
+    padding:5px 12px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:transform .12s ease, background .2s ease;
+    font-family:inherit;
+  }
+  .copy-btn:hover{ transform:translateY(-1px); }
+  .copy-btn:active{ transform:translateY(0); }
+  .copy-btn.copied{ background:#5FBF8C; color:#08251A; }
+  .code-block pre{
+    margin:0;
+    padding:14px 16px 16px;
+    color:var(--code-text);
+    font-family:"SFMono-Regular", Consolas, Menlo, monospace;
+    font-size:11.5px;
+    line-height:1.65;
+    white-space:pre-wrap;
+    word-break:break-all;
+    max-height:160px;
+    overflow-y:auto;
+  }
+
+  /* ---------- Save button visual ---------- */
+  .save-note{
+    margin-top:16px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:13.5px;
+    color:var(--ink-soft);
+  }
+  .save-pill{
+    background:var(--ink);
+    color:#fff;
+    font-weight:700;
+    font-size:12.5px;
+    padding:5px 16px;
+    border-radius:999px;
+  }
+
+  /* ---------- Tip box ---------- */
+  .tip{
+    margin:0 0 40px;
+    background:#FFF6E8;
+    border:1px solid #F0DDB1;
+    border-left:4px solid var(--gold);
+    border-radius:8px;
+    padding:16px 18px;
+    font-size:14px;
+    color:#5A3F0E;
+  }
+  .tip b{ color:var(--stamp-dark); }
+
+  /* ---------- Usage section ---------- */
+  .usage-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-top:6px;
+  }
+  @media (max-width:560px){ .usage-grid{ grid-template-columns:1fr; } }
+  .usage-card{
+    background:var(--tag-light);
+    border-radius:9px;
+    padding:16px 16px 14px;
+  }
+  .usage-card .tag{
+    font-family:"Zen Maru Gothic", sans-serif;
+    font-weight:700;
+    color:var(--tag);
+    font-size:14px;
+    margin-bottom:6px;
+  }
+  .usage-card p{
+    font-size:13px;
+    color:var(--ink-soft);
+    margin:0;
+  }
+
+  footer{
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:12.5px;
+    margin-top:8px;
+  }
+  .perforation{
+    height:14px;
+    background-image:radial-gradient(circle, var(--paper) 3px, transparent 3.5px);
+    background-size:14px 14px;
+    background-position:center;
+    background-color:var(--tag);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">SOKONE NOTE SETUP GUIDE</div>
+    <h1>底値ノート<span class="accent">に</span><br>1タップで価格を送る方法</h1>
+    <p class="lede">Chromeのブックマークレットを2つ登録するだけ。<br>商品ページを開いて、ブックマークをタップするだけで底値ノートに転送されます。</p>
+    <div class="price-stamp">所要時間 約3分・無料</div>
+  </header>
+
+  <div class="tip">
+    <b>事前準備：</b> このページ内の「コピー」ボタンでURLをコピーできます。Chrome（PC / スマホどちらも可）で進めてください。
+  </div>
+
+  <!-- ===================== STEP A: open bookmark manager ===================== -->
+  <div class="receipt">
+    <div class="receipt-head">
+      <div class="num">1</div>
+      <div>
+        <div class="title">ブックマークマネージャーを開く</div>
+        <div class="sub">最初の1回だけ行う準備です</div>
+      </div>
+    </div>
+    <div class="receipt-body">
+      <div class="step">
+        <div class="step-marker">1</div>
+        <div class="step-content">
+          <p>Chrome右上の <span class="kbd">⋮</span>（縦三点メニュー）をクリックします。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-marker">2</div>
+        <div class="step-content">
+          <p><span class="kbd">ブックマークとリスト</span> → <span class="kbd">ブックマークマネージャー</span> の順に進みます。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== STEP B: bookmarklet 1 ===================== -->
+  <div class="receipt">
+    <div class="receipt-head">
+      <div class="num">2</div>
+      <div>
+        <div class="title">「底値ノートに追加」を登録</div>
+        <div class="sub">新しい商品をはじめて登録するときに使うブックマーク</div>
+      </div>
+    </div>
+    <div class="receipt-body">
+
+      <div class="step">
+        <div class="step-marker">1</div>
+        <div class="step-content">
+          <p>ブックマークマネージャー内で <span class="kbd">⋮</span> をクリックし、<span class="kbd">新しいブックマークを追加</span> を選びます。</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-marker">2</div>
+        <div class="step-content">
+          <p><span class="field-label">名前</span>欄に以下を入力します。</p>
+          <div class="input-mock">底値ノートに追加</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-marker">3</div>
+        <div class="step-content">
+          <p><span class="field-label">URL</span>欄に以下のコードを貼り付けます。</p>
+          <div class="code-block" id="code1Wrap">
+            <div class="label">
+              <span>javascript: ブックマークレット</span>
+              <button class="copy-btn" data-target="code1">コピー</button>
+            </div>
+            <pre id="code1">javascript:(function(){ var SOKONE_URL = "https://shimashi2321.github.io/sokone-note/"; function clean(s){ if(!s) return ""; var m = String(s).replace(/[０-９]/g, function(c){ return String.fromCharCode(c.charCodeAt(0)-0xFEE0); }).match(/[\d,]+(\.\d+)?/); return m ? m[0].replace(/,/g,"") : ""; } function pick(selectors){ for(var i=0;i&lt;selectors.length;i++){ var el = document.querySelector(selectors[i]); if(el){ var t = el.getAttribute("content") || el.textContent; if(t && t.trim()) return t.trim(); } } return ""; } var host = location.hostname; var name = "", priceRaw = "", site = ""; if(host.indexOf("amazon") !== -1){ site = "Amazon"; name = pick(["#productTitle", "[itemprop='name']", "title"]); priceRaw = pick([ "#corePrice_feature_div .a-price .a-offscreen", "#corePriceDisplay_desktop_feature_div .a-price .a-offscreen", ".a-price .a-offscreen", "#priceblock_ourprice", "#priceblock_dealprice", "[itemprop='price']" ]); } else if(host.indexOf("rakuten") !== -1){ site = "楽天"; name = pick(["span.item_name", "h1", "[itemprop='name']", "title"]); priceRaw = pick([ ".price2", ".important", "[itemprop='price']", ".price" ]); } else if(host.indexOf("askul") !== -1){ site = "アスクル"; name = pick(["h1", "[itemprop='name']", "title"]); priceRaw = pick([".price", "[itemprop='price']"]); } else { site = host; name = pick(["[itemprop='name']", "meta[property='og:title']", "h1", "title"]); priceRaw = pick(["[itemprop='price']", "meta[property='product:price:amount']", ".price"]); } var price = clean(priceRaw); if(!name && !price){ alert("価格・商品名を取得できませんでした。ページの構造が対応外かもしれません。"); return; } var url = SOKONE_URL + "?name=" + encodeURIComponent(name) + "&price=" + encodeURIComponent(price) + "&site=" + encodeURIComponent(site) + "&siteUrl=" + encodeURIComponent(location.href); window.open(url, "_blank"); })();</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-marker">4</div>
+        <div class="step-content">
+          <p><span class="save-pill">保存</span> をクリックして完了です。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===================== STEP C: bookmarklet 2 ===================== -->
+  <div class="receipt">
+    <div class="receipt-head">
+      <div class="num">3</div>
+      <div>
+        <div class="title">「底値ノートの既存アイテムに追加」を登録</div>
+        <div class="sub">同じ商品の新しい価格を、既存アイテムに追記するときに使うブックマーク</div>
+      </div>
+    </div>
+    <div class="receipt-body">
+
+      <div class="step">
+        <div class="step-marker">1</div>
+        <div class="step-content">
+          <p>もう一度 <span class="kbd">⋮</span> → <span class="kbd">新しいブックマークを追加</span> を選びます。</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-marker">2</div>
+        <div class="step-content">
+          <p><span class="field-label">名前</span>欄に以下を入力します。</p>
+          <div class="input-mock">底値ノートの既存アイテムに追加</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-marker">3</div>
+        <div class="step-content">
+          <p><span class="field-label">URL</span>欄に以下のコードを貼り付けます。</p>
+          <div class="code-block" id="code2Wrap">
+            <div class="label">
+              <span>javascript: ブックマークレット</span>
+              <button class="copy-btn" data-target="code2">コピー</button>
+            </div>
+            <pre id="code2">javascript:(function(){ var SOKONE_URL = "https://shimashi2321.github.io/sokone-note/"; function clean(s){ if(!s) return ""; var m = String(s).replace(/[０-９]/g, function(c){ return String.fromCharCode(c.charCodeAt(0)-0xFEE0); }).match(/[\d,]+(\.\d+)?/); return m ? m[0].replace(/,/g,"") : ""; } function pick(selectors){ for(var i=0;i&lt;selectors.length;i++){ var el = document.querySelector(selectors[i]); if(el){ var t = el.getAttribute("content") || el.textContent; if(t && t.trim()) return t.trim(); } } return ""; } var host = location.hostname; var name = "", priceRaw = "", site = ""; if(host.indexOf("amazon") !== -1){ site = "Amazon"; name = pick(["#productTitle", "[itemprop='name']", "title"]); priceRaw = pick([ "#corePrice_feature_div .a-price .a-offscreen", "#corePriceDisplay_desktop_feature_div .a-price .a-offscreen", ".a-price .a-offscreen", "#priceblock_ourprice", "#priceblock_dealprice", "[itemprop='price']" ]); } else if(host.indexOf("rakuten") !== -1){ site = "楽天"; name = pick(["span.item_name", "h1", "[itemprop='name']", "title"]); priceRaw = pick([ ".price2", ".important", "[itemprop='price']", ".price" ]); } else if(host.indexOf("askul") !== -1){ site = "アスクル"; name = pick(["h1", "[itemprop='name']", "title"]); priceRaw = pick([".price", "[itemprop='price']"]); } else { site = host; name = pick(["[itemprop='name']", "meta[property='og:title']", "h1", "title"]); priceRaw = pick(["[itemprop='price']", "meta[property='product:price:amount']", ".price"]); } var price = clean(priceRaw); if(!name && !price){ alert("価格・商品名を取得できませんでした。ページの構造が対応外かもしれません。"); return; } var url = SOKONE_URL + "?name=" + encodeURIComponent(name) + "&price=" + encodeURIComponent(price) + "&site=" + encodeURIComponent(site) + "&siteUrl=" + encodeURIComponent(location.href); window.open(url + "&mode=child", "_blank"); })();</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-marker">4</div>
+        <div class="step-content">
+          <p><span class="save-pill">保存</span> をクリックして完了です。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===================== Usage ===================== -->
+  <div style="margin-bottom:8px;">
+    <div style="font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:16px;margin-bottom:10px;">使い分けの目安</div>
+    <div class="usage-grid">
+      <div class="usage-card">
+        <div class="tag">底値ノートに追加</div>
+        <p>はじめて見る商品を、新しいアイテムとして登録したいとき。</p>
+      </div>
+      <div class="usage-card">
+        <div class="tag">既存アイテムに追加</div>
+        <p>すでに登録済みの商品で、別の日・別のお店の価格を追記したいとき。</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>商品ページを開いた状態でブックマークをタップすると、商品名・価格・サイト名が自動で底値ノートに送られます。</footer>
+
+</div>
+
+<script>
+document.querySelectorAll('.copy-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var targetId = btn.getAttribute('data-target');
+    var text = document.getElementById(targetId).textContent;
+    var finish = function(){
+      var original = btn.textContent;
+      btn.textContent = 'コピーしました';
+      btn.classList.add('copied');
+      setTimeout(function(){
+        btn.textContent = original;
+        btn.classList.remove('copied');
+      }, 1600);
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(finish).catch(function(){
+        fallbackCopy(text, finish);
+      });
+    } else {
+      fallbackCopy(text, finish);
+    }
+  });
+});
+function fallbackCopy(text, cb){
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try{ document.execCommand('copy'); }catch(e){}
+  document.body.removeChild(ta);
+  cb();
+}
+</script>
+</body>
+</html>
